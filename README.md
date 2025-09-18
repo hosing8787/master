@@ -33,6 +33,42 @@ Streamlit UI를 통해 대화형으로 GPU 인프라 분석 리포트를 출력�
 - 📑 GPU RFP 사례 기반 보고서 자동 생성  
 
 ---
+🏗️ 시스템 아키텍처
+mermaidflowchart LR
+    A[**요구사항 입력**] --> B[**요구사항 분석**] --> C[**RAG 검색**] --> D{**RAG 결과<br/>충분성 만족**}
+    
+    D -->|No| E[**Report 생성<br/>Web Search 검색**]
+    D -->|Yes| F[**Report 생성<br/>RAG 기반**]
+    
+    E --> G[**TTD-DR<br>확산형 추론 딥리서치**]
+    F --> G
+    
+    G --> H[**최종 보고서 생성**] --> I{**요구사항과 보고서<br/>적합성 확인**} --> J[**최종 보고서 출력**]
+    
+    %% 재귀 연결
+    I -.->|부적합| B
+
+    classDef default fill:#f9f9f9,stroke:#333,stroke-width:2px,color:#000,font-weight:bold
+    classDef decision fill:#ffe4b5,stroke:#ff9800,stroke-width:2px,color:#000,font-weight:bold
+    classDef report fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#000,font-weight:bold
+    classDef reasoning fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#000,font-weight:bold
+    classDef final fill:#e8f5e8,stroke:#4caf50,stroke-width:3px,color:#000,font-weight:bold
+    classDef validation fill:#ffebee,stroke:#d32f2f,stroke-width:2px,color:#000,font-weight:bold
+    classDef output fill:#e1f5fe,stroke:#0277bd,stroke-width:3px,color:#000,font-weight:bold
+    
+    class D,I decision
+    class E,F report
+    class G reasoning
+    class H final
+    class I validation
+    class J output
+모듈 구조
+
+Backend (FastAPI): RESTful API 서버, 비즈니스 로직 처리
+Frontend (Streamlit): 웹 UI, 사용자 인터페이스
+Services: 핵심 기능별 독립 서비스 모듈
+Models: 데이터 스키마 및 비즈니스 엔티티
+Utils: 공통 유틸리티 (통화 변환, 텍스트 처리 등)
 
 ## 📂 프로젝트 구조
 
